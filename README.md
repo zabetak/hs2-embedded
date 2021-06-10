@@ -19,7 +19,7 @@ A project for building and using a docker image of [Hiveserver2](https://cwiki.a
 pre-configured to run with [Tez](https://tez.apache.org/) in local mode as the underlying execution engine and in-memory
 [Derby](https://db.apache.org/derby/) as the metastore.
 
-Use `mvn install` to build the project and create the docker image for HS2. 
+Use `mvn install` to build the project and create the docker image for HS2.
 
 You can use the docker image by managing
 containers explicitly via the docker CLI or by exploiting the dependency on https://www.testcontainers.org/.
@@ -35,10 +35,10 @@ Create HS2 container using Docker CLI:
 Create HS2 container using testcontainers:
 
     public class TestHS2Container {
-    
+
       @Rule
       public HS2Container hs2 = new HS2Container();
-    
+
       @Test
       public void testSimpleDDL() throws Exception {
         try (Connection c = DriverManager.getConnection(hs2.getJdbcURL())) {
@@ -49,3 +49,41 @@ Create HS2 container using testcontainers:
         }
       }
     }
+
+## Release
+
+This section contains information for developers who would like to
+release the project. 
+
+The manual steps to perform a release are shown below:
+
+1. Pick a concrete version for the release (freeze -SNAPSHOT) and commit the changes.
+```
+mvn versions:set -DnewVersion=1.0.3.7.2.3.0-220
+```
+2. Verify that build using the release profile finishes successfully.
+```
+mvn package -Prelease
+```
+3. Upload the artifacts to the nexus staging repository
+```
+mvn deploy -Prelease
+```
+4. Visit the nexus staging repository and verify the content (sha, asc, jar, sources, etc.).
+5. Close and then release the staging repository.
+6. Create a tag corresponding to the newly release version in the git repository.
+```
+git tag 1.0.3.7.2.3.0-220
+```
+7. Push master and tag to the remote repository
+```
+git push origin master
+git push origin 1.0.3.7.2.3.0-220
+```
+8. Prepare for next depelopment iteration (change version and commit)
+```
+mvn versions:set -DnewVersion=1.0.4.7.2.3.0-SNAPSHOT
+```
+
+More details about the release steps can be found
+[here](https://central.sonatype.org/publish/publish-maven/).
