@@ -76,7 +76,7 @@
         <hadoop.version>3.1.1.7.2.3.0-220</hadoop.version>
         <tez.version>0.9.1.7.2.3.0-220</tez.version>
         <kryo.version>3.0.3</kryo.version>
-        <testcontainers.version>1.15.0-rc2</testcontainers.version>
+        <testcontainers.version>1.15.3</testcontainers.version>
         <guava.version>28.0-jre</guava.version>
         <jackson.version>2.10.5</jackson.version>
         <!-- Plugin versions -->
