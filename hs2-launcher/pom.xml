@@ -27,20 +27,6 @@
 
     <artifactId>hs2-launcher</artifactId>
 
-    <repositories>
-        <repository>
-            <id>mvn.central</id>
-            <url>https://repo.maven.apache.org/maven2</url>
-        </repository>
-        <repository>
-            <id>hortonworks</id>
-            <url>https://nexus-private.hortonworks.com/nexus/content/groups/public</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-        </repository>
-    </repositories>
-
     <dependencies>
         <!-- There is no Java code depending on Hive, Tez but to build the Docker image they are required. -->
         <!-- Due to this it is a bit subtle between choosing to include them as runtime or compile dependencies. -->

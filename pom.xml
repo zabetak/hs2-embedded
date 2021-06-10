@@ -65,6 +65,20 @@
         </repository>
     </distributionManagement>
 
+    <repositories>
+        <repository>
+            <id>mvn.central</id>
+            <url>https://repo.maven.apache.org/maven2</url>
+        </repository>
+        <repository>
+            <id>hortonworks</id>
+            <url>https://nexus-private.hortonworks.com/nexus/content/groups/public</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+        </repository>
+    </repositories>
+
     <modules>
         <module>hs2-loader</module>
         <module>hs2-launcher</module>
