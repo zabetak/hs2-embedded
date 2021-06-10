@@ -22,7 +22,7 @@
     <parent>
         <groupId>com.github.zabetak</groupId>
         <artifactId>hs2-embedded</artifactId>
-        <version>1.0.0.7.2.3.0-SNAPSHOT</version>
+        <version>1.0.1.7.2.3.0-220</version>
     </parent>
 
     <artifactId>hs2-launcher</artifactId>
