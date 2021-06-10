@@ -96,6 +96,8 @@
         <!-- Plugin versions -->
         <maven.compiler.version>3.8.1</maven.compiler.version>
         <maven.exec.version>1.6.0</maven.exec.version>
+        <maven.dependency.version>3.1.2</maven.dependency.version>
+        <maven.jar.version>3.2.0</maven.jar.version>
         <!-- Attaching source, javadoc, and signing the artifacts is a requirement to publish in maven central -->
         <maven.source.version>3.2.1</maven.source.version>
         <maven.javadoc.version>3.2.0</maven.javadoc.version>
