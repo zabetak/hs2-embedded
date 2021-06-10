@@ -26,7 +26,11 @@ containers explicitly via the docker CLI or by exploiting the dependency on http
 
 Create HS2 container using Docker CLI:
 
-    docker run -p "10000:10000" com.github.zabetak/hs2-embedded:1.0.0.7.2.3.0-SNAPSHOT
+    docker run -p "10000:10000" -d com.github.zabetak/hs2-embedded:1.0.0.7.2.3.0-SNAPSHOT
+
+(Optional) Use the `schema-loader` utility to create some tables and start playing around:
+
+    docker exec CONTAINER_NAME schema-loader tpcds
 
 Create HS2 container using testcontainers:
 

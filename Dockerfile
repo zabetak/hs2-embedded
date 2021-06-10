@@ -19,12 +19,20 @@ COPY pom.xml /usr/src/app/
 WORKDIR /usr/src/app/hs2-launcher
 RUN mvn install -P '!dockerlocal'
 
+COPY hs2-loader/src /usr/src/app/hs2-loader/src
+COPY hs2-loader/pom.xml /usr/src/app/hs2-loader/pom.xml
+WORKDIR /usr/src/app/hs2-loader
+RUN mvn install -P '!dockerlocal'
+
 FROM openjdk:8-jre-slim
 
 ARG VERSION
 
 COPY --from=build /usr/src/app/hs2-launcher/target/lib /opt/hive/lib
 COPY --from=build /usr/src/app/hs2-launcher/target/hs2-launcher-${VERSION}.jar /opt/hive/hs2-launcher.jar
+COPY --from=build /usr/src/app/hs2-loader/target/lib /opt/hive/lib
+COPY --from=build /usr/src/app/hs2-loader/target/hs2-loader-${VERSION}.jar /opt/hive/hs2-loader.jar
+COPY hs2-loader/bin/schema-load /usr/local/bin/
 
 WORKDIR /opt/hive
 

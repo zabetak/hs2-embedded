@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+java -jar /opt/hive/hs2-loader.jar -s $1

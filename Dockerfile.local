@@ -19,6 +19,9 @@ ARG VERSION
 
 COPY hs2-launcher/target/lib /opt/hive/lib
 COPY hs2-launcher/target/hs2-launcher-${VERSION}.jar /opt/hive/hs2-launcher.jar
+COPY hs2-loader/target/lib /opt/hive/lib
+COPY hs2-loader/target/hs2-loader-${VERSION}.jar /opt/hive/hs2-loader.jar
+COPY hs2-loader/bin/schema-load /usr/local/bin/
 
 WORKDIR /opt/hive
 
