@@ -73,4 +73,8 @@ used to store files.
         <name>hive.metastore.schema.verification</name>
         <value>false</value>
     </property>
+    <property>
+        <name>hive.tez.container.size</name>
+        <value>1024</value>
+    </property>
 </configuration>
