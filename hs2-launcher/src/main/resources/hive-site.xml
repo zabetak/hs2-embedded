@@ -33,7 +33,7 @@ used to store files.
 
     <property>
         <name>hive.server2.thrift.bind.host</name>
-        <value>localhost</value>
+        <value>0.0.0.0</value>
     </property>
     <property>
         <name>hive.scheduled.queries.executor.enabled</name>
