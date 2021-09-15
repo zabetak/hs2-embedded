@@ -35,8 +35,8 @@ public class TestHS2Container {
   @Test
   public void testSimpleDDL() throws Exception {
     try (Connection c = DriverManager.getConnection(hs2.getJdbcURL())) {
-      try (PreparedStatement ps = c
-          .prepareStatement("CREATE TABLE test1 (uid VARCHAR(64), link STRING, source STRING)")) {
+      try (PreparedStatement ps = c.prepareStatement(
+              "CREATE TABLE test1 (uid VARCHAR(64), link STRING, source STRING)")) {
         ps.executeUpdate();
       }
       try (PreparedStatement ps = c.prepareStatement("DESCRIBE FORMATTED test1")) {
@@ -58,8 +58,8 @@ public class TestHS2Container {
   @Test
   public void testSimpleCreateInsertSelectStatements() throws Exception {
     try (Connection c = DriverManager.getConnection(hs2.getJdbcURL())) {
-      try (PreparedStatement ps = c
-          .prepareStatement("CREATE TABLE test1 (uid VARCHAR(64), link STRING, source STRING)")) {
+      try (PreparedStatement ps = c.prepareStatement(
+              "CREATE TABLE test1 (uid VARCHAR(64), link STRING, source STRING)")) {
         ps.executeUpdate();
       }
       List<String> expectedUids = new ArrayList<>();
@@ -67,8 +67,8 @@ public class TestHS2Container {
         final String uid = "A" + i;
         final String link = "L" + i;
         final String source = "S" + i;
-        try (PreparedStatement ps = c
-            .prepareStatement("INSERT INTO test1 VALUES ('" + uid + "', '" + link + "', '" + source + "')")) {
+        try (PreparedStatement ps = c.prepareStatement(
+                "INSERT INTO test1 VALUES ('" + uid + "', '" + link + "', '" + source + "')")) {
           ps.executeUpdate();
         }
         expectedUids.add(uid);
@@ -81,6 +81,50 @@ public class TestHS2Container {
             actualUids.add(rs.getString(1));
           }
           Assert.assertEquals(expectedUids, actualUids);
+        }
+      }
+    }
+  }
+
+  @Test
+  public void testCreateTransactionalTableAndMaterializedViewOverIt() throws Exception {
+    try (Connection c = DriverManager.getConnection(hs2.getJdbcURL())) {
+      try (PreparedStatement ps = c.prepareStatement(
+              "CREATE TABLE test2 (uid VARCHAR(64), link STRING, source STRING) "
+                      + "stored as ORC TBLPROPERTIES ('transactional'='true')")) {
+        ps.executeUpdate();
+      }
+      List<String> expectedUids = new ArrayList<>();
+      for (int i = 0; i < 5; i++) {
+        final String uid = "A" + i;
+        final String link = "L" + i;
+        final String source = "S" + i;
+        try (PreparedStatement ps = c.prepareStatement(
+                "INSERT INTO test2 VALUES ('" + uid + "', '" + link + "', '" + source + "')")) {
+          ps.executeUpdate();
+        }
+        expectedUids.add(uid);
+      }
+
+      try (PreparedStatement ps = c.prepareStatement(
+              "CREATE MATERIALIZED VIEW mat_view AS SELECT * FROM test2")) {
+        ps.executeUpdate();
+      }
+
+      try (PreparedStatement psTable = c.prepareStatement("SELECT uid FROM test2 ORDER BY uid ASC");
+           PreparedStatement psView = c.prepareStatement("SELECT uid FROM mat_view ORDER BY uid ASC")) {
+        try (ResultSet rsTable = psTable.executeQuery();
+             ResultSet rsView = psView.executeQuery()) {
+          List<String> actualTableUids = new ArrayList<>();
+          List<String> actualViewUids = new ArrayList<>();
+          while (rsTable.next()) {
+            actualTableUids.add(rsTable.getString(1));
+          }
+          while (rsView.next()) {
+            actualViewUids.add(rsView.getString(1));
+          }
+          Assert.assertEquals(expectedUids, actualTableUids);
+          Assert.assertEquals(expectedUids, actualViewUids);
         }
       }
     }
