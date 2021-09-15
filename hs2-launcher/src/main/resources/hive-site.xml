@@ -18,10 +18,10 @@
 <!--
 Configuration for running HS2 with in-memory derby DB for the metastore
 and Tez in local mode without LLAP. By default the local filesystem is
-used to store files.
+used to store files. Transactional tables support is activated.
 -->
 <configuration>
-    <!-- If the server cannot start fail fast -->
+    <!-- START: If the server cannot start fail fast -->
     <property>
         <name>hive.server2.max.start.attempts</name>
         <value>1</value>
@@ -30,6 +30,7 @@ used to store files.
         <name>hive.server2.sleep.interval.between.start.attempts</name>
         <value>10s</value>
     </property>
+    <!-- END: If the server cannot start fail fast -->
 
     <property>
         <name>hive.server2.thrift.bind.host</name>
@@ -43,7 +44,7 @@ used to store files.
         <name>hive.jar.directory</name>
         <value>/opt/hive/lib</value>
     </property>
-    <!-- Use Tez in local mode without LLAP -->
+    <!-- START: Use Tez in local mode without LLAP -->
     <property>
         <name>tez.local.mode</name>
         <value>true</value>
@@ -60,21 +61,66 @@ used to store files.
         <name>hive.llap.io.enabled</name>
         <value>false</value>
     </property>
-    <!-- Use in memory derby DB for the metastore -->
+    <!-- END: Use Tez in local mode without LLAP -->
     <property>
         <name>javax.jdo.option.ConnectionURL</name>
         <value>jdbc:derby:memory:metastore;create=true</value>
+        <description>Use in memory derby DB as metastore</description>
     </property>
     <property>
         <name>datanucleus.schema.autoCreateAll</name>
         <value>true</value>
+        <description>Creates necessary schema on a startup if one doesn't exist</description>
     </property>
     <property>
         <name>hive.metastore.schema.verification</name>
         <value>false</value>
+        <description>If true, it disables autoCreateAll</description>
     </property>
     <property>
         <name>hive.tez.container.size</name>
         <value>1024</value>
     </property>
+    <!-- START: Create managed/transactional tables -->
+    <property>
+        <name>hive.create.as.acid</name>
+        <value>true</value>
+    </property>
+    <property>
+        <name>hive.default.fileformat</name>
+        <value>ORC</value>
+    </property>
+    <property>
+        <name>hive.default.fileformat.managed</name>
+        <value>ORC</value>
+    </property>
+    <property>
+        <name>hive.support.concurrency</name>
+        <value>true</value>
+    </property>
+    <property>
+        <name>hive.enforce.bucketing</name>
+        <value>true</value>
+    </property>
+    <property>
+        <name>hive.exec.dynamic.partition.mode</name>
+        <value>nonstrict</value>
+    </property>
+    <property>
+        <name>hive.compactor.initiator.on</name>
+        <value>true</value>
+    </property>
+    <property>
+        <name>hive.txn.manager</name>
+        <value>org.apache.hadoop.hive.ql.lockmgr.DbTxnManager</value>
+    </property>
+    <property>
+        <name>hive.compactor.worker.threads</name>
+        <value>1</value>
+    </property>
+    <property>
+        <name>hive.in.test</name>
+        <value>true</value>
+    </property>
+    <!-- END: Create managed/transactional tables -->
 </configuration>
