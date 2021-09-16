@@ -25,6 +25,6 @@ COPY hs2-loader/bin/schema-load /usr/local/bin/
 
 WORKDIR /opt/hive
 
-EXPOSE 10000
+EXPOSE 8000 10000 10002
 
-CMD java -jar hs2-launcher.jar
+CMD java -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=8000 -jar hs2-launcher.jar
