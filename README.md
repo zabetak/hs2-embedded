@@ -75,14 +75,20 @@ mvn deploy -Prelease
 ```
 git tag 1.0.4.7.2.3.0-220
 ```
-7. Push master and tag to the remote repository
+7. Push tag to the remote repository
 ```
-git push origin master
 git push origin 1.0.4.7.2.3.0-220
 ```
-8. Prepare for next depelopment iteration (change version and commit)
+8. Prepare for next depelopment iteration
+8a. Change version in pom files
 ```
 mvn versions:set -DnewVersion=1.0.5.7.2.3.0-SNAPSHOT
+```
+8b. Update release instructions in README.md to reflect version changes
+8c. Commit
+9. Push master to the remote repository
+```
+git push origin master
 ```
 
 More details about the release steps can be found
