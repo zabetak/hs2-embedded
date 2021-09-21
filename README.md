@@ -26,7 +26,7 @@ containers explicitly via the docker CLI or by exploiting the dependency on http
 
 Create HS2 container using Docker CLI:
 
-    docker run -p "10000:10000" -d com.github.zabetak/hs2-embedded:1.0.0.7.2.3.0-SNAPSHOT
+    docker run -p "10000:10000" -d com.github.zabetak/hs2-embedded:1.0.4.7.2.3.0-SNAPSHOT
 
 (Optional) Use the `schema-loader` utility to create some tables and start playing around:
 
@@ -59,7 +59,7 @@ The manual steps to perform a release are shown below:
 
 1. Pick a concrete version for the release (freeze -SNAPSHOT) and commit the changes.
 ```
-mvn versions:set -DnewVersion=1.0.3.7.2.3.0-220
+mvn versions:set -DnewVersion=1.0.4.7.2.3.0-220
 ```
 2. Verify that build using the release profile finishes successfully.
 ```
@@ -73,16 +73,16 @@ mvn deploy -Prelease
 5. Close and then release the staging repository.
 6. Create a tag corresponding to the newly release version in the git repository.
 ```
-git tag 1.0.3.7.2.3.0-220
+git tag 1.0.4.7.2.3.0-220
 ```
 7. Push master and tag to the remote repository
 ```
 git push origin master
-git push origin 1.0.3.7.2.3.0-220
+git push origin 1.0.4.7.2.3.0-220
 ```
 8. Prepare for next depelopment iteration (change version and commit)
 ```
-mvn versions:set -DnewVersion=1.0.4.7.2.3.0-SNAPSHOT
+mvn versions:set -DnewVersion=1.0.5.7.2.3.0-SNAPSHOT
 ```
 
 More details about the release steps can be found
